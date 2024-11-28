@@ -63,6 +63,37 @@ def merge(left, right):
 def quicksort(data):
     pass
 
+# Selection Sort
+def selection_sort(data):
+
+    for i in range(len(data)):
+        # Find the index of the minimum element in the unsorted part
+        min_index = i
+        for j in range(i + 1, len(data)):
+            if data[j] < data[min_index]:
+                min_index = j
+
+        # Swap the found minimum element with the first element
+        data[i], data[min_index] = data[min_index], data[i]
+
+    return data
+
+# Insertion Sort
+def insertion_sort(arr):
+  # Check if the input array is empty
+  if not arr:
+    return None
+
+  # Loop through the array starting at the second element
+  for i in range(1, len(arr)):
+    key = arr[i]
+    j = i - 1
+    while j >= 0 and arr[j] > key:
+      arr[j + 1] = arr[j]
+      j -= 1
+    arr[j + 1] = key
+  return arr
+
 
 if __name__ == "__main__":
     # Get times for both merge and quick sort to compare on frontend
