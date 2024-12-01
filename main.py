@@ -1,23 +1,11 @@
 import time
 '''
 To-Do:
-Build Out QuickSort
-'''
-
-
-''' Commented out so it doesn't run during tests.
-with open('GRU_Customer_Electric_Consumption_2012-2022_20241126.csv', 'r') as file: # Takes in each KWH measurement from ~12mil rows of data
-    data = []
-    next(file) # Skips header
-    for line in file:
-        row = line.split(',')
-        kwh = float(row[6])
-        data.append(kwh)
-'''
-    
+Build Out QuickSort, Heap Sort
+''' 
 
 # Merge sort 
-def mergesort(data):
+def merge_sort(data):
     # Base case
     if len(data) <= 1:
         return data
@@ -27,8 +15,8 @@ def mergesort(data):
     right = data[mid:]
 
     # Recursive sort left and right
-    left = mergesort(left)
-    right = mergesort(right)
+    left = merge_sort(left)
+    right = merge_sort(right)
 
     # Merge the halves
     return merge(left, right)
@@ -60,7 +48,7 @@ def merge(left, right):
 
 
 # Quick Sort
-def quicksort(data):
+def quick_sort(data):
     pass
 
 # Selection Sort
@@ -93,16 +81,3 @@ def insertion_sort(arr):
       j -= 1
     arr[j + 1] = key
   return arr
-
-
-if __name__ == "__main__":
-    # Get times for both merge and quick sort to compare on frontend
-    start_time = time.time()
-    mergesort_data = mergesort(data)
-    mergesort_time = time.time() - start_time
-
-    start_time = time.time()
-    quicksort_data = quicksort(data)
-    quicksort_time = time.time() - start_time
-
-    # Some type of frontend function to visualize the times it took/data etc
