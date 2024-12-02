@@ -1,7 +1,7 @@
 import time
 '''
 To-Do:
-Build Out QuickSort, Heap Sort
+Quick Sort seems to be taking long on the frontend, need to check if it is working properly
 ''' 
 
 # Merge sort 
@@ -77,10 +77,10 @@ def quick_sort(data):
             greater.append(item)
 
         # As this algorithm is a divide and conquer algorithm, we will take the separate sections and concatenate them
-        sortLesser = quicksort(lesser)  
-        sortGreater = quicksort(greater)
+        sortLesser = quick_sort(lesser)  
+        sortGreater = quick_sort(greater)
 
-        return sortedLesser + middle + sortedGreater
+    return sortLesser + middle + sortGreater
             
 
 # Selection Sort
@@ -96,7 +96,7 @@ def selection_sort(data):
         # Swap the found minimum element with the first element
         data[i], data[min_index] = data[min_index], data[i]
 
-    return data
+    return data[:i+1]  # Return only the sorted portion of the list
 
 # Insertion Sort
 def insertion_sort(arr):
@@ -112,11 +112,11 @@ def insertion_sort(arr):
       arr[j + 1] = arr[j]
       j -= 1
     arr[j + 1] = key
-  return arr
+  return arr[:i+1]
 
   # Heap Sort requires that the strcuture of the heap remains in tact with each sorted node
   # A heapify function is required to maintain the strcuture of the heap
-  def heapify(data, n, i):
+def heapify(data, n, i):
 
     # Create heap (max heap in this case) with the largest node being the root initially
     largest = i
@@ -127,17 +127,16 @@ def insertion_sort(arr):
 
     # Check if there is a left child and if so, if it is greater than root
     if left < n and data[left] > data[largest]:
-        root = left
+        largest = left
 
     # Check if there is a right child and if so, if it is greater than largest
     if right < n and data[right] > data[largest]:
-        root = right
+        largest = right
 
     # If largest is not root, continue heapifying
     if largest != i:
         # Swap necessary values
-        data[i] = data[largest]
-        data[largest] = data[i]
+        data[i], data[largest] = data[largest], data[i]
         heapify(data, n, largest)
 
 def heapsort(data):
@@ -151,8 +150,34 @@ def heapsort(data):
 
     # Extract the root one by one as heapify swaps elements and changes it
     for i in range(n - 1, 0, -1):
-        data[0] = data[i]
-        data[i] = data[0]
+        data[0], data[i] = data[i], data[0]
         heapify(data, i, 0)
+    return data
 
+def min_run(n):
+    # Calculates the minimum run length.
+    r = 0
+    while n >= 32:
+        r |= n & 1
+        n >>= 1
+    return n + r
 
+def tim_sort(data):
+    # Sorts the array using Timsort.
+    n = len(data)
+    minrun = min_run(n)
+
+    # Sort individual subarrays of size minrun
+    for start in range(0, n, minrun):
+        end = min(start + minrun - 1, n - 1)
+        insertion_sort(data[start:end+1])  # Using existing insertion_sort
+
+    # Merge subarrays to produce sorted arrays
+    size = minrun
+    while size < n:
+        for left in range(0, n, 2 * size):
+            mid = min(n - 1, left + size - 1)
+            right = min(n - 1, left + 2 * size - 1)
+            merge(left, right)  # Using existing merge function
+        size *= 2
+    return data

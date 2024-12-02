@@ -1,10 +1,10 @@
 import time
 import pygame
-from main import merge_sort, quick_sort, selection_sort, insertion_sort
+from main import merge_sort, quick_sort, heapsort, tim_sort
 
 '''
 To-Do:
-Some type of visualization (See Loading Screen Comment in main_screen Function) + Polish the Front-End Look, Replace Selection and Insertion (Too Slow)
+Some type of visualization (See Loading Screen Comment in main_screen Function) + Polish the Front-End Look
 '''
 
 # Window Setup + Frequent Variables
@@ -68,8 +68,8 @@ def home_screen(): # Main Menu Screen
     sorting_buttons = [ 
         make_button(x_start, y_start, button_width, button_height, "Merge Sort"),
         make_button(x_start + button_width + button_space, y_start, button_width, button_height, "Quick Sort"),
-        make_button(x_start, y_start+ button_height + button_space, button_width, button_height, "Selection Sort"), # Replace
-        make_button(x_start + button_width + button_space, y_start + button_height + button_space, button_width, button_height, "Insertion Sort") # Replace
+        make_button(x_start, y_start+ button_height + button_space, button_width, button_height, "Heap Sort"), # Replace
+        make_button(x_start + button_width + button_space, y_start + button_height + button_space, button_width, button_height, "Tim Sort") # Replace
     ]
 
     start_button = make_button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT - 150, 200, 50, "Start Sorting")
@@ -131,16 +131,15 @@ def home_screen(): # Main Menu Screen
 
         pygame.display.flip()
 
-
 def main_screen(data, chosen_sorts): # Takes in Selected Sorts From Frontend To Do Calculations
     window.fill(BACKGROUND_COLOR)
-    
+
     # Dictionary Mapping Sort Names to Functions
     sorting_algorithms = {
         "Merge Sort": merge_sort,
         "Quick Sort": quick_sort,
-        "Selection Sort": selection_sort, # Replace
-        "Insertion Sort": insertion_sort # Replace
+        "Heap Sort": heapsort, # Updated
+        "Tim Sort": tim_sort # Updated
     }
 
     # Loading Screen (Replace With Some Type Of Visualization)
@@ -162,12 +161,12 @@ def main_screen(data, chosen_sorts): # Takes in Selected Sorts From Frontend To 
     running = True
     while running:
         window.fill(BACKGROUND_COLOR)
-        
+
         # Drawing Title
         title = title_font.render("Sorting Results", True, TEXT_COLOR)
         title_rect = title.get_rect(center=(WINDOW_WIDTH // 2, 100))
         window.blit(title, title_rect)
-        
+
         # Drawing Results
         y_position = WINDOW_HEIGHT // 3
         for sorting_name, sorting_time in time_results:
@@ -175,14 +174,14 @@ def main_screen(data, chosen_sorts): # Takes in Selected Sorts From Frontend To 
             sort_text_rect = sort_text.get_rect(center=(WINDOW_WIDTH // 2, y_position))
             window.blit(sort_text, sort_text_rect)
             y_position += 100
-        
+
         # Drawing Exit Instructions
         exit_text = smaller_font.render("Press ESC or click X to exit", True, TEXT_COLOR)
         exit_rect = exit_text.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 100))
         window.blit(exit_text, exit_rect)
-        
+
         pygame.display.flip()
-        
+
         # Event Handling + Exiting
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
