@@ -49,7 +49,39 @@ def merge(left, right):
 
 # Quick Sort
 def quick_sort(data):
-    pass
+    # Cover the edge case where a single element is within data
+    if len(data) <= 1:
+        return data
+
+    # Choose a pivot (the middle value) to sort all other values around
+    pivot = data[len(data) // 2]
+
+    # Separate the data into three sections putting all small, middle, and large values together
+    lesser = []
+    middle = []
+    greater = []
+
+    # Use for loop to go through values and place them in the correct sections
+    for item in data:
+
+        # If item is less than the chosen pivot, it must be placed in the lesser section
+        if item < pivot:
+            lesser.append(item)
+
+        # If the item is = to the pivot, place it in middle
+        elif item == pivot:
+            middle.append(item)
+
+        # If the item is > pivot, place in greater
+        else:
+            greater.append(item)
+
+        # As this algorithm is a divide and conquer algorithm, we will take the separate sections and concatenate them
+        sortLesser = quicksort(lesser)  
+        sortGreater = quicksort(greater)
+
+        return sortedLesser + middle + sortedGreater
+            
 
 # Selection Sort
 def selection_sort(data):
@@ -81,3 +113,46 @@ def insertion_sort(arr):
       j -= 1
     arr[j + 1] = key
   return arr
+
+  # Heap Sort requires that the strcuture of the heap remains in tact with each sorted node
+  # A heapify function is required to maintain the strcuture of the heap
+  def heapify(data, n, i):
+
+    # Create heap (max heap in this case) with the largest node being the root initially
+    largest = i
+
+    # Initialize left and right children (heap represented as an array)
+    left = 2 * i + 1
+    right = 2 * i + 2 
+
+    # Check if there is a left child and if so, if it is greater than root
+    if left < n and data[left] > data[largest]:
+        root = left
+
+    # Check if there is a right child and if so, if it is greater than largest
+    if right < n and data[right] > data[largest]:
+        root = right
+
+    # If largest is not root, continue heapifying
+    if largest != i:
+        # Swap necessary values
+        data[i] = data[largest]
+        data[largest] = data[i]
+        heapify(data, n, largest)
+
+def heapsort(data):
+    # After implementing heapify algorithm, we can now implement heapsort
+
+    # Begin by using the length of the data array to build a max heap using heapify 
+    n = len(data)
+
+    for i in range(n // 2 -1, -1, -1):
+        heapify(data, n, i)
+
+    # Extract the root one by one as heapify swaps elements and changes it
+    for i in range(n - 1, 0, -1):
+        data[0] = data[i]
+        data[i] = data[0]
+        heapify(data, i, 0)
+
+
