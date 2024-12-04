@@ -49,70 +49,30 @@ def merge(left, right):
 
 # Quick Sort
 def quick_sort(data):
-    # Cover the edge case where a single element is within data
+    # Base case
     if len(data) <= 1:
         return data
 
     # Choose a pivot (the middle value) to sort all other values around
     pivot = data[len(data) // 2]
-
-    # Separate the data into three sections putting all small, middle, and large values together
     lesser = []
     middle = []
     greater = []
 
-    # Use for loop to go through values and place them in the correct sections
     for item in data:
 
-        # If item is less than the chosen pivot, it must be placed in the lesser section
         if item < pivot:
             lesser.append(item)
 
-        # If the item is = to the pivot, place it in middle
         elif item == pivot:
             middle.append(item)
 
-        # If the item is > pivot, place in greater
         else:
             greater.append(item)
 
-        # As this algorithm is a divide and conquer algorithm, we will take the separate sections and concatenate them
-        sortLesser = quick_sort(lesser)  
-        sortGreater = quick_sort(greater)
-
-    return sortLesser + middle + sortGreater
+    # Recursive call outside of loop
+    return quick_sort(lesser) + middle + quick_sort(greater)
             
-
-# Selection Sort
-def selection_sort(data):
-
-    for i in range(len(data)):
-        # Find the index of the minimum element in the unsorted part
-        min_index = i
-        for j in range(i + 1, len(data)):
-            if data[j] < data[min_index]:
-                min_index = j
-
-        # Swap the found minimum element with the first element
-        data[i], data[min_index] = data[min_index], data[i]
-
-    return data[:i+1]  # Return only the sorted portion of the list
-
-# Insertion Sort
-def insertion_sort(arr):
-  # Check if the input array is empty
-  if not arr:
-    return None
-
-  # Loop through the array starting at the second element
-  for i in range(1, len(arr)):
-    key = arr[i]
-    j = i - 1
-    while j >= 0 and arr[j] > key:
-      arr[j + 1] = arr[j]
-      j -= 1
-    arr[j + 1] = key
-  return arr[:i+1]
 
   # Heap Sort requires that the strcuture of the heap remains in tact with each sorted node
   # A heapify function is required to maintain the strcuture of the heap

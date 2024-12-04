@@ -2,11 +2,6 @@ import time
 import pygame
 from main import merge_sort, quick_sort, heapsort, tim_sort
 
-'''
-To-Do:
-Some type of visualization (See Loading Screen Comment in main_screen Function) + Polish the Front-End Look
-'''
-
 # Window Setup + Frequent Variables
 WINDOW_HEIGHT = 800
 WINDOW_WIDTH = 1200
@@ -156,7 +151,12 @@ def main_screen(data, chosen_sorts): # Takes in Selected Sorts From Frontend To 
         sorting_time = time.time() - start_time
         print(sorting_time)
         time_results.append((sorting_name, sorting_time))
-
+    # Calculating Faster Time    
+    faster_time = 0
+    if time_results[0][1] > time_results[1][1]:
+        faster_time = time_results[1][1]
+    else:
+        faster_time = time_results[0][1]
     # Display Results
     running = True
     while running:
@@ -170,7 +170,12 @@ def main_screen(data, chosen_sorts): # Takes in Selected Sorts From Frontend To 
         # Drawing Results
         y_position = WINDOW_HEIGHT // 3
         for sorting_name, sorting_time in time_results:
-            sort_text = font.render(f"{sorting_name} Time: {sorting_time:.2f} seconds", True, TEXT_COLOR)
+            if sorting_time == faster_time:
+                color = (0, 255, 0)  # Green for faster
+            else:
+                color = (255, 0, 0)  
+
+            sort_text = font.render(f"{sorting_name} Time: {sorting_time:.2f} seconds", True, color)
             sort_text_rect = sort_text.get_rect(center=(WINDOW_WIDTH // 2, y_position))
             window.blit(sort_text, sort_text_rect)
             y_position += 100
