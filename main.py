@@ -1,8 +1,4 @@
 import time
-'''
-To-Do:
-Quick Sort seems to be taking long on the frontend, need to check if it is working properly
-''' 
 
 # Merge sort 
 def merge_sort(data):
@@ -121,6 +117,20 @@ def min_run(n):
         r |= n & 1
         n >>= 1
     return n + r
+# Insertion Sort
+def insertion_sort(arr):
+  # Check if the input array is empty
+  if not arr:
+    return None
+  # Loop through the array starting at the second element
+  for i in range(1, len(arr)):
+    key = arr[i]
+    j = i - 1
+    while j >= 0 and arr[j] > key:
+      arr[j + 1] = arr[j]
+      j -= 1
+    arr[j + 1] = key
+  return arr[:i+1]
 
 def tim_sort(data):
     # Sorts the array using Timsort.
