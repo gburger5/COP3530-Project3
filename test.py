@@ -1,12 +1,5 @@
-# Test merge and quicksort
 from main import merge_sort, quick_sort, heapsort, tim_sort
-'''
-To-Do:
-Test each and make sure they pass for quicksort
 
-Simplify this code to make it easier to read, especially with more sorting algorithms
-'''
-# Pretty sure these all work now, updated some things in the main.py file
 testList = [2, 6, 8, 5] # Even Number
 
 sortedList = merge_sort(testList)
